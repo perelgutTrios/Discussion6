@@ -7,8 +7,8 @@ import SubjectList from './components/SubjectList';
 import SubjectDetail from './components/SubjectDetail';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
 
@@ -24,8 +24,18 @@ function App() {
     return <Auth setToken={setToken} setUser={setUser} />;
   }
 
+  const handleGoBack = () => {
+    // Refetch subjects when returning to the list
+    if (token) {
+      axios.get('/api/subjects', { headers: { Authorization: `Bearer ${token}` } })
+        .then(res => setSubjects(res.data))
+        .catch(() => setSubjects([]));
+    }
+    setSelectedSubject(null);
+  };
+
   if (selectedSubject) {
-    return <SubjectDetail subject={selectedSubject} token={token} user={user} goBack={() => setSelectedSubject(null)} />;
+    return <SubjectDetail subject={selectedSubject} token={token} user={user} goBack={handleGoBack} />;
   }
 
   return <SubjectList subjects={subjects} setSelectedSubject={setSelectedSubject} token={token} setSubjects={setSubjects} user={user} setToken={setToken} />;

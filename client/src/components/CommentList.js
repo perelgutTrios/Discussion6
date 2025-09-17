@@ -30,7 +30,10 @@ function CommentList({ comments, token }) {
     <ul style={{ maxHeight: 300, overflowY: 'auto', padding: 0 }}>
       {comments.map(c => (
         <li key={c._id} style={{ borderBottom: '1px solid #ccc', padding: '0.5rem', cursor: 'pointer' }} onClick={() => handleSelect(c)}>
-          {c.text}
+          <div><strong>{c.text}</strong></div>
+          <div style={{ fontSize: '0.9em', color: '#555' }}>
+            By: {c.userId?.name || c.userId?.email || 'Unknown'} | {c.timestamp ? new Date(c.timestamp).toLocaleString() : ''}
+          </div>
         </li>
       ))}
     </ul>

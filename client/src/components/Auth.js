@@ -23,29 +23,24 @@ function Auth({ setToken, setUser }) {
         localStorage.setItem('user', JSON.stringify(res.data.user));
       }
     } catch (err) {
-      // Show backend error if present, else show a generic message
+      // Always show backend error if present, else show a generic message
       const backendError = err.response?.data?.error;
-      if (isRegister && backendError) {
-        if (backendError.toLowerCase().includes('phone')) {
-          setError('Incorrect phone number. Please enter a valid 10-digit phone number.');
-        } else if (backendError.toLowerCase().includes('email')) {
-          setError('Invalid or already registered email address.');
-        } else if (backendError.toLowerCase().includes('password')) {
-          setError('Password must be at least 8 characters, include uppercase, lowercase, and a digit.');
-        } else if (backendError.toLowerCase().includes('name')) {
-          setError('Name is required.');
-        } else {
-          setError(backendError);
-        }
+      if (backendError) {
+        setError(backendError);
       } else {
-        setError(backendError || 'Authentication failed.');
+        setError('Authentication failed.');
       }
     }
   };
 
+  const handleToggleMode = () => {
+    setIsRegister(r => !r);
+    setError('');
+  };
+
   return (
     <main>
-      <h2>{isRegister ? 'Register' : 'Login'}</h2>
+      <h2 className="section-header">{isRegister ? 'Register' : 'Login'}</h2>
       <form onSubmit={handleSubmit}>
         <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
         <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
@@ -55,9 +50,9 @@ function Auth({ setToken, setUser }) {
             <input name="phone" placeholder="Phone (10 digits)" value={form.phone} onChange={handleChange} required />
           </>
         )}
-        <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
+        <button className="btn-submit" type="submit">{isRegister ? 'Register' : 'Login'}</button>
       </form>
-      <button onClick={() => setIsRegister(r => !r)}>
+      <button className={isRegister ? "btn-cancel" : "btn-add"} onClick={handleToggleMode}>
         {isRegister ? 'Already have an account? Login' : 'No account? Register'}
       </button>
       {error && <div style={{ color: 'red' }}>{error}</div>}

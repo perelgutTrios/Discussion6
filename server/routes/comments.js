@@ -65,6 +65,8 @@ router.post('/', authenticateToken, async (req, res) => {
       subjectId
     });
     await comment.save();
+    // Populate userId with name/email
+    await comment.populate('userId', 'email name');
     res.status(201).json(comment);
   } catch (err) {
     res.status(500).json({ error: 'Failed to add comment.' });

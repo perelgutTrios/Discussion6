@@ -28,6 +28,7 @@ router.post('/register', async (req, res) => {
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.log('[Register] Error: Email already registered.');
       return res.status(400).json({ error: 'Email already registered.' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,9 +39,12 @@ router.post('/register', async (req, res) => {
     // Mongoose validation errors
     if (err.name === 'ValidationError') {
       const messages = Object.values(err.errors).map(e => e.message);
+      console.log('[Register] ValidationError:', messages.join(' '));
       return res.status(400).json({ error: messages.join(' ') });
     }
-    res.status(500).json({ error: 'Registration failed.' });
+    // Log and return the error message if available, otherwise a generic message
+    console.log('[Register] Unexpected error:', err.message || err);
+    return res.status(500).json({ error: err.message || 'Registration failed due to an unknown error.' });
   }
 });
 
