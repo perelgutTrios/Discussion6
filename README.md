@@ -2,6 +2,8 @@
 # Discussion Board
 
 A full-stack web application for discussion threads with user authentication, built with React (frontend), Express (backend), Java microservice (business logic), and MongoDB (database).
+<img width="3403" height="3840" alt="Untitled diagram _ Mermaid Chart-2025-09-18-120340" src="https://github.com/user-attachments/assets/2f3e4fe4-8131-4533-a54b-d788d2049631" />
+
 
 ## Structure
 - `client/` - React frontend (HTML, CSS, JS)
