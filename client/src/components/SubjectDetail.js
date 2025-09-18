@@ -38,7 +38,7 @@ function SubjectDetail({ subject, token, user, goBack }) {
     <main>
   <button className="btn-submit" onClick={goBack}>Back to Subjects</button>
       <h2 className="section-header">{subject.title}</h2>
-      <div><strong>Description:</strong> {subject.description}</div>
+  <div style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', maxWidth: 600 }}><strong>Description:</strong> {subject.description}</div>
       <div><strong>Author:</strong> {subject.userId?.name || subject.userId?.email || 'Unknown'}</div>
       <div><strong>Created:</strong> {new Date(subject.timestamp).toLocaleString()}</div>
       <h3 style={{ color: '#174ea6' }}>Comments</h3>
@@ -50,7 +50,7 @@ function SubjectDetail({ subject, token, user, goBack }) {
         </form>
       )}
       {error && <div style={{ color: 'red' }}>{error}</div>}
-      <CommentList comments={comments} token={token} />
+  <CommentList comments={comments} token={token} />
     </main>
   );
 }

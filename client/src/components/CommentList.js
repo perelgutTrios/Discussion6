@@ -18,7 +18,7 @@ function CommentList({ comments, token }) {
   if (selected && fullComment) {
     return (
       <div style={{ border: '1px solid #aaa', padding: '1rem', margin: '1rem 0' }}>
-        <div><strong>Comment:</strong> {fullComment.text}</div>
+        <div style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', maxWidth: 600 }}><strong>Comment:</strong> {fullComment.text}</div>
         <div><strong>By:</strong> {fullComment.userId?.name || fullComment.userId?.email || 'Unknown'}</div>
         <div><strong>At:</strong> {new Date(fullComment.timestamp).toLocaleString()}</div>
         <button onClick={() => { setSelected(null); setFullComment(null); }}>Back to Comments</button>
@@ -30,7 +30,7 @@ function CommentList({ comments, token }) {
     <ul style={{ maxHeight: 300, overflowY: 'auto', padding: 0 }}>
       {comments.map(c => (
         <li key={c._id} style={{ borderBottom: '1px solid #ccc', padding: '0.5rem', cursor: 'pointer' }} onClick={() => handleSelect(c)}>
-          <div><strong>{c.text}</strong></div>
+          <div style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', maxWidth: 600 }}><strong>{c.text}</strong></div>
           <div style={{ fontSize: '0.9em', color: '#555' }}>
             By: {c.userId?.name || c.userId?.email || 'Unknown'} | {c.timestamp ? new Date(c.timestamp).toLocaleString() : ''}
           </div>
