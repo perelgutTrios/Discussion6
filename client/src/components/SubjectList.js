@@ -35,26 +35,34 @@ function SubjectList({ subjects, setSelectedSubject, token, setSubjects, user, s
   };
 
   return (
-    <main>
-      <h2 className="section-header">Discussion Subjects</h2>
-      <button className="btn-logout" onClick={handleLogout}>Logout</button>
-      <button className={showForm ? "btn-cancel" : "btn-add"} onClick={() => setShowForm(f => !f)}>{showForm ? 'Cancel' : 'Add Subject'}</button>
+    <main className="container mt-5" style={{ maxWidth: 700 }}>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="mb-0">Discussion Subjects</h2>
+        <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
+      </div>
+      <button className={`btn ${showForm ? 'btn-secondary' : 'btn-success'} mb-3`} onClick={() => setShowForm(f => !f)}>
+        {showForm ? 'Cancel' : 'Add Subject'}
+      </button>
       {showForm && (
-        <form onSubmit={handleSubmit}>
-          <input name="title" placeholder="Title (max 100)" maxLength={100} value={form.title} onChange={handleChange} required />
-          <textarea name="description" placeholder="Description (max 1000)" maxLength={1000} value={form.description} onChange={handleChange} required />
-          <button className="btn-submit" type="submit">Submit</button>
+        <form onSubmit={handleSubmit} className="card card-body mb-3">
+          <div className="mb-3">
+            <label htmlFor="title" className="form-label">Title</label>
+            <input name="title" id="title" className="form-control" placeholder="Title (max 100)" maxLength={100} value={form.title} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">Description</label>
+            <textarea name="description" id="description" className="form-control" placeholder="Description (max 1000)" maxLength={1000} value={form.description} onChange={handleChange} required />
+          </div>
+          <button className="btn btn-primary w-100" type="submit">Submit</button>
         </form>
       )}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      <ul style={{ maxHeight: 400, overflowY: 'auto', padding: 0 }}>
+      {error && <div className="alert alert-danger" role="alert">{error}</div>}
+      <ul className="list-group" style={{ maxHeight: 400, overflowY: 'auto', padding: 0 }}>
         {subjects.map(s => (
-          <li key={s._id} style={{ borderBottom: '1px solid #ccc', padding: '1rem', cursor: 'pointer' }} onClick={() => setSelectedSubject(s)}>
+          <li key={s._id} className="list-group-item list-group-item-action" style={{ cursor: 'pointer' }} onClick={() => setSelectedSubject(s)}>
             <strong>{s.title}</strong> <br />
-            <span>
-              By: {s.userId?.name || s.userId?.email || 'Unknown'} |
-              {new Date(s.timestamp).toLocaleString()} |
-              Comments: {typeof s.commentCount === 'number' ? s.commentCount : 0}
+            <span className="text-muted" style={{ fontSize: '0.95em' }}>
+              By: {s.userId?.name || s.userId?.email || 'Unknown'} | {new Date(s.timestamp).toLocaleString()} | Comments: {typeof s.commentCount === 'number' ? s.commentCount : 0}
             </span>
           </li>
         ))}

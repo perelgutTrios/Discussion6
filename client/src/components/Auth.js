@@ -39,23 +39,39 @@ function Auth({ setToken, setUser }) {
   };
 
   return (
-    <main>
-      <h2 className="section-header">{isRegister ? 'Register' : 'Login'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-        <input name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-        {isRegister && (
-          <>
-            <input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-            <input name="phone" placeholder="Phone (10 digits)" value={form.phone} onChange={handleChange} required />
-          </>
-        )}
-        <button className="btn-submit" type="submit">{isRegister ? 'Register' : 'Login'}</button>
-      </form>
-      <button className={isRegister ? "btn-cancel" : "btn-add"} onClick={handleToggleMode}>
-        {isRegister ? 'Already have an account? Login' : 'No account? Register'}
-      </button>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+    <main className="container mt-5" style={{ maxWidth: 400 }}>
+      <div className="card shadow">
+        <div className="card-body">
+          <h2 className="card-title text-center mb-4">{isRegister ? 'Register' : 'Login'}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input name="email" id="email" type="email" className="form-control" placeholder="Email" value={form.email} onChange={handleChange} required />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input name="password" id="password" type="password" className="form-control" placeholder="Password" value={form.password} onChange={handleChange} required />
+            </div>
+            {isRegister && (
+              <>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">Name</label>
+                  <input name="name" id="name" className="form-control" placeholder="Name" value={form.name} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="phone" className="form-label">Phone (10 digits)</label>
+                  <input name="phone" id="phone" className="form-control" placeholder="Phone (10 digits)" value={form.phone} onChange={handleChange} required />
+                </div>
+              </>
+            )}
+            <button className="btn btn-primary w-100 mb-2" type="submit">{isRegister ? 'Register' : 'Login'}</button>
+          </form>
+          <button className="btn btn-link w-100" onClick={handleToggleMode}>
+            {isRegister ? 'Already have an account? Login' : 'No account? Register'}
+          </button>
+          {error && <div className="alert alert-danger mt-3" role="alert">{error}</div>}
+        </div>
+      </div>
     </main>
   );
 }
